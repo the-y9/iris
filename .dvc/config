@@ -1,0 +1,4 @@
+[core]
+    remote = storage
+['remote "storage"']
+    url = gs://mlops-course-eternal-cycling-463617-f7-unique/dvcstore
