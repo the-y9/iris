@@ -1,0 +1,156 @@
+    1  screen -S mlflow_intro
+    2  screen -R mlflow_intro
+    3  exit
+    4  script -f ~/session.log
+    5  scree -R mlflow_intro
+    6  screen -R mlflow_intro
+    7  screen -list
+    8  pip install mlflow
+    9  mlflow server --host 0.0.0.0 --port 8100
+   10  pip show mlflow
+   11  mlflow server --host 0.0.0.0 --port 8100
+   12  screen -R mlflow_intro
+   13  cls
+   14  clear
+   15  screen -R mlflow_intro
+   16  k
+   17  screen -R mlflow_intro
+   18  pip show mlflow
+   19  mlflow server --host 0.0.0.0 --port 8100
+   20  screen -S oppe1
+   21  pip install mlflow
+   22  mlflow server --host 0.0.0.0 --port 8100
+   23  mkdir fastapi
+   24  cd fastapi
+   25  ls
+   26  cd ..
+   27  ls
+   28  cd fastapi
+   29  ls
+   30  ls
+   31  cd fastapi
+   32  ls
+   33  cd ..
+   34  ls
+   35  mv iris_fastapi.py fastapi/iris_fastapi.py
+   36  cd fastapi
+   37  ls
+   38  cd ..
+   39  mv req.txt fastapi/req.txt
+   40  cd fastapi
+   41  ls
+   42  cd ..
+   43  ls
+   44  mv model.joblib fastapi/model.joblib
+   45  cd fastapi
+   46  ls
+   47  pip install req.txt
+   48  uvicorn iris_fastapi:app --reload --host 0.0.0.0
+   49  cd doc_v
+   50  mkdir doc_v
+   51  cd
+   52  cd fastapi
+   53  rm -rf doc_v/
+   54  cd ..
+   55  mkdir doc_v
+   56  cp /fastapi/* /doc_v/
+   57  ls
+   58  cp -r /fastapi/* /doc_v/
+   59  cp -r fastapi/* doc_v/
+   60  mkdir doc_v
+   61  cd doc_v
+   62  ls
+   63  sudo usermod -aG docker $USER 
+   64  docker build
+   65  docker build -t iris-api
+   66  docker build -t iris-api .
+   67  ls
+   68  cd doc
+   69  cd doc_v
+   70  ls
+   71  cd ..
+   72  rm -rf doc_v
+   73  ls
+   74  clear
+   75  ls
+   76  mkdir dock
+   77  mv $(ls Dockerfile iris_fastapi.py model.joblib req.txt) dock/
+   78  ls
+   79  cd dock
+   80  ls
+   81  docker version
+   82  sudo usermod -aG docker $USER
+   83  docker build -t iris-api .
+   84  docker images
+   85  docker run -d -p 8200:8200 iris-api
+   86  docker logs a21538ab
+   87  cd ..
+   88  cd fastapi
+   89  uvicorn iris_fastapi:app --reload --host:0.0.0.0
+   90  uvicorn iris_fastapi:app --reload --host 0.0.0.0
+   91  cd dock
+   92  docker logs
+   93  cd ..
+   94  cd dock
+   95  docker logs
+   96  docker logs a21538
+   97  docker ps
+   98  docker stop a21538
+   99  docker ps
+  100  docker images
+  101  gcloud services enable artifactregistry.googleapis.com 
+  102  gcloud artifacts repositories create iris-repo | --repository-format=docker | --location=us-central1 \ --description="Docker repo for ML models"
+  103  gcloud artifacts repositories create iris-repo --repository-format=docker --location=us-central1 --description="Docker repo for ML models"
+  104  gcloud auth configure-docker us-central1-docker.pkg.dev 
+  105  docker images
+  106  docker tag iris-api 
+  107  us-central1-docker.pkg.dev/dulcet-bastion-452612-v4/iris-repo/iris-api:latest 
+  108  docker tag iris-api us-central1-docker.pkg.dev/dulcet-bastion-452612-v4/iris-repo/iris-api:latest 
+  109  docker push  us-central1-docker.pkg.dev/dulcet-bastion-452612-v4/iris-repo/iris-api:latest 
+  110  gcloud projects describe dulcet-bastion-452612-v4 --format="value(projectNumber)"
+  111  docker push  us-central1-docker.pkg.dev/eternal-cycling-463617-f7/iris-repo/iris-api:latest 
+  112  docker tag iris-api us-central1-docker.pkg.dev/eternal-cycling-463617-f7/iris-repo/iris-api:latest 
+  113  docker push  us-central1-docker.pkg.dev/eternal-cycling-463617-f7/iris-repo/iris-api:latest 
+  114  cd dock
+  115  gcloud container clusters get-credentials iris-cluster-6 --zone us-central1 --project eternal-cycling-463617-f7
+  116  gcloud auth configure-docker us-central1-docker.pkg.dev 
+  117  gcloud container clusters get-credentials iris-cluster-6 --zone us-central1 --project eternal-cycling-463617-f7
+  118  gcloud components install gke-gcloud-auth-plugin
+  119  kubectl get pods
+  120  cd
+  121  ls
+  122  cd dock
+  123  ls
+  124  gcloud components install gke-gcloud-auth-plugin
+  125  sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin
+  126  exec $SHELL
+  127  gcloud container clusters get-credentials iris-cluster-6 --zone us-central1 --project eternal-cycling-463617-f7
+  128  kubectl get pods
+  129  kubectl get service
+  130  ls
+  131  cd mlruns
+  132  ls
+  133  cd ../mlartifacts
+  134  ls
+  135  cd..
+  136  cd ../dock
+  137  ls
+  138  git init
+  139  git add origin remote https://github.com/the-y9/iris.git
+  140  git remote add origin https://github.com/the-y9/iris.git
+  141  git add .
+  142  git commit -m "fastapi, docker and k8s"
+  143  git config user.name "yash"
+  144  git config user.email "21f1006461@ds.study.iitm.ac.in"
+  145  git commit -m "fastapi, docker and k8s"
+  146  git push origin dev
+  147  git branch
+  148  git push origin master:dev-docker
+  149  git status
+  150  git branch
+  151  git checkout dev-docker
+  152  git branch
+  153  git pull origin dev-docker
+  154  git status
+  155  ls
+  156  history > rough_shell_history.txt
