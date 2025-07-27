@@ -152,5 +152,5 @@
   152  git branch
   153  git pull origin dev-docker
   154  git status
-  155  ls
+  155 
   156  history > rough_shell_history.txt
