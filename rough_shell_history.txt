@@ -59,7 +59,7 @@
    59  cp -r fastapi/* doc_v/
    60  mkdir doc_v
    61  cd doc_v
-   62  ls
+   62  
    63  sudo usermod -aG docker $USER 
    64  docker build
    65  docker build -t iris-api
