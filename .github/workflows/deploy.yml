@@ -3,7 +3,7 @@ name: Deploy Iris API
 on:
   push:
     branches:
-      - main  # Or your actual deployment branch
+      - dev-docker
 
 jobs:
   deploy:
