@@ -1,0 +1,80 @@
+Logging & Telemetry demo
+#teaching 
+Create GKE cluster - log-ml-cluster - gcloud container clusters create log-ml-cluster   --zone=us-central1-a   --num-nodes=3   --workload-pool=$(gcloud config get-value project).svc.id.goog   --logging=SYSTEM,WORKLOAD   --monitoring=SYSTEM
+
+in SSH
+
+1.	Get the app coded for emitting telemetry and logs, and handling exceptions properly
+2.	gcloud services enable container.googleapis.com \
+    logging.googleapis.com \
+    monitoring.googleapis.com \
+    cloudtrace.googleapis.com
+3.	Dockerfile & requirements.txt
+docker build -t demo_log .
+docker tag demo_log us-central1-docker.pkg.dev/eternal-cycling-463617-f7/iris-repo/demo_log:latest
+docker push us-central1-docker.pkg.dev/eternal-cycling-463617-f7/iris-repo/demo_log:latest
+kubectl rollout restart deployment demo-log-ml-service
+
+gcloud container clusters get-credentials log-ml-cluster \
+  --zone=us-central1-a
+On workbench compute engine instance, this command might throw an error about auth plugin not being installed. In which case, do the below steps:
+a. sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin
+b. gcloud config set container/use_application_default_credentials true
+
+7.	Manifests - deployment, service, hpa
+gcloud iam service-accounts create telemetry-access --display-name "Access for GKE ML service"
+PROJECT_ID=$(gcloud config get-value project)
+gcloud projects add-iam-policy-binding $PROJECT_ID --member="serviceAccount:telemetry-access@$PROJECT_ID.iam.gserviceaccount.com"  --role="roles/logging.logWriter"
+gcloud projects add-iam-policy-binding $PROJECT_ID  --member="serviceAccount:telemetry-access@$PROJECT_ID.iam.gserviceaccount.com" --role="roles/cloudtrace.agent"
+
+Each time a GKE cluster is created, do these 3 steps:
+15.	kubectl create serviceaccount telemetry-access --namespace default
+16.	kubectl annotate serviceaccount telemetry-access \
+  --namespace default \
+  iam.gke.io/gcp-service-account=telemetry-access@$PROJECT_ID.iam.gserviceaccount.com
+16.	gcloud iam service-accounts add-iam-policy-binding telemetry-access@$PROJECT_ID.iam.gserviceaccount.com \
+  --role roles/iam.workloadIdentityUser \
+  --member "serviceAccount:$PROJECT_ID.svc.id.goog[default/telemetry-access]"
+
+
+
+
+To confirm the telemetry-access serviceaccount exists,
+a. kubectl get serviceaccount telemetry-access -n default
+b. kubectl describe serviceaccount telemetry-access -n default - check for annotation exists
+c. gcloud iam service-accounts get-iam-policy telemetry-access@$PROJECT_ID.iam.gserviceaccount.com - check IAM policy includes it
+
+
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f hpa.yaml
+
+To get the exposed service info:
+kubectl get service demo-log-ml-service
+34.171.149.251:80 
+
+Ensure the port is open in vpc firewall
+
+To forcefully restart and  pull latest images, use
+kubectl rollout restart deployment demo-log-ml-service
+
+To check status of restart: kubectl rollout status deployment demo-log-ml-service
+Check age of pods:
+kubectl get pods -l app=demo-log-ml-service 
+Check image being used:
+kubectl describe pod <pod-name>
+
+To check if the status of probes in a pod:
+kubectl describe pod demo-log-ml-service-56c6f678d4-8sv9f
+
+If all probes work fine, the deployment status should say OK and not CrashLoopBackOff.
+
+curl -X POST http://34.171.149.251:80/predict   -H "Content-Type: application/json"   -d '{"feature1": 1.0, "feature2": 2.0}'
+
+
+— 
+Perf run:
+sudo apt-get install wrk
+wrk -t4 -c100 -d30s --latency -s post.lua http://34.171.149.251:80/predict
+
+—
