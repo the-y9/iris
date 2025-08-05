@@ -15,7 +15,7 @@ class TestLogisticRegressionModel(unittest.TestCase):
         cls.y_test = test['species'].values
 
         # Load model and label encoder
-        cls.model_path = "artifacts/model.joblib"
+        cls.model_path = "artifacts/model_10.joblib"
         cls.label_encoder_path = "artifacts/label_encoder.joblib"
         cls.model = joblib.load(cls.model_path)
         cls.le = joblib.load(cls.label_encoder_path)
